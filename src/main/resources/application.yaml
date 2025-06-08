@@ -1,0 +1,67 @@
+server:
+  port: 8090
+spring:
+  application:
+    name: manager
+  lifecycle:
+    timeout-per-shutdown-phase: 30s
+  datasource:
+    url: jdbc:mysql://localhost:3306/personal_management_system?useSSL=false&serverTimezone=UTC&characterEncoding=utf8
+    username: root
+    password: zyhdmm
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update # 开发环境常用update，生产环境建议使用none或validate
+    show-sql: true # 显示SQL语句，方便调试
+  config:
+    import: "optional:nacos:${spring.application.name}"
+  cloud:
+    nacos:
+      server-addr: 192.168.100.136:8848
+      discovery:
+        # 心跳间隔（单位ms，默认5000）
+        heart-beat-interval: 3000
+        # 心跳超时（单位ms，默认15000）
+        heart-beat-timeout: 10000
+        namespace: 5087aef0-3293-4f04-aa2d-56c1644dfc3f
+        group: DEV-GROUP
+  rabbitmq:
+    host: 192.168.100.136
+    port: 5672
+    username: zyh
+    password: zyhdmm
+    virtual-host: /dev
+    publisher-confirm-type: correlated  # 异步确认模式
+    template:
+      mandatory: true  # 开启路由失败回调
+  devtools:
+    restart:
+      enabled: true  #设置开启热部署
+      additional-paths: src/main #重启目录
+      exclude: WEB-INF/**
+  freemarker:
+    cache: false    #页面不加载缓存，修改即时生效
+  data:
+    redis:
+      host: 192.168.100.136
+      port: 6379
+      username: zyh
+      password: zyhdmm
+      jedis:
+        pool:
+          max-active: 8
+          max-idle: 8
+          max-wait: -1
+    
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    url: http://localhost:8090
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /api-docs
+    
+    
+    

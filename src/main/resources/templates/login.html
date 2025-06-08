@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>人事管理系统登录</title>
+    <link rel="stylesheet" href="/css/login.css">
+    <!-- 引入 Vue.js -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.5.0/dist/axios.min.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div class="login-container">
+            <h2>人事管理系统登录</h2>
+            <form @submit.prevent="handleLogin">
+                <label for="account">用户名:</label>
+                <input type="text" id="account" v-model="account" required>
+                <label for="password">登录密码:</label>
+                <input type="password" id="password" v-model="password" required>
+                <button type="submit">登录</button>
+            </form>
+        </div>
+    </div>
+    <script src="/js/login.js"></script>
+</body>
+
+</html>

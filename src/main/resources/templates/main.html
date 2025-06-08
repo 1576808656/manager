@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录成功 - 管理系统</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.5.0/dist/axios.min.js"></script>
+</head>
+
+<body>
+    <script src="/js/main.js"></script>
+    <header>
+        <h1>欢迎使用管理系统</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="#" onclick="showPersonnelManagement()">人事管理</a></li>
+            <li><a href="#">工资管理</a></li>
+            <li><a href="#" onclick="showSignInManagement()">考勤管理</a></li>
+            <li><a href="#">数据库管理</a></li>
+            <li><a href="#">系统管理</a></li>
+        </ul>
+    </nav>
+    
+    <div id="content-area">
+        <main>
+            <center><h2>主界面</h2></center>
+            <p><center>请选择您需要的管理功能</center></p>
+        </main>
+        
+        <!-- 人事管理区域 -->
+        <div id="personnel-management" class="management-area" style="display:none;">
+            <div class="search-area" id="personal-input">
+                <input type="text" id="search-input" placeholder="输入员工姓名">
+                <button onclick="searchEmployee()">搜索</button>
+            </div>
+            
+            <div class="employee-display">
+                <div class="employee-list">
+                    <table id="employee-table">
+                        <thead id="dynamic-thead">
+                            <!-- 动态生成的列头将插入此处 -->
+                        </thead>
+                        <tbody>
+                            <!-- 动态生成 -->
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="13" style="text-align: right;">
+                                    <div class="table-buttons">
+                                        <button onclick="saveEmployee()">保存</button>
+                                        <button onclick="addEmployee()">添加</button>
+                                        <button onclick="deleteEmployee()">删除</button>
+                                        <button onclick="resetForm()">重置</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                
+<!--                 <div class="employee-detail">
+                    <div class="detail-form">
+                        <div class="employee-info">
+                            <p>姓名: <span id="name"></span></p>
+                            <p>性别: <span id="gender"></span></p>
+                            <p>年龄: <span id="age"></span></p>
+                            添加其他需要展示的字段
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+        
+        <!-- 考勤管理区域 -->
+        <div id="sign-in-management" class="management-area" style="display:none;">
+            <div class="search-area">
+                <input type="text" id="sign-in-search-input" placeholder="输入员工姓名">
+                <button onclick="searchSignInData()">搜索</button>
+            </div>
+            
+            <div class="sign-in-display">
+                <!-- 考勤表格或其他内容 -->
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>&copy; 2025 管理系统版权所有</p>
+    </footer>
+</body>
+</html>
