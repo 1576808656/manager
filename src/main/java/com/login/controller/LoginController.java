@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import com.login.config.JwtConfig;
 import com.login.service.login.LoginServiceInterface;
-import com.login.utils.JwtConfig;
 
 import io.swagger.v3.oas.annotations.Operation;
 

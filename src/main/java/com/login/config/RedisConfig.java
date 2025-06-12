@@ -1,4 +1,4 @@
-package com.login.utils;
+package com.login.config;
 
 import java.time.Duration;
 

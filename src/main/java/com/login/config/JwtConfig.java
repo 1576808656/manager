@@ -1,4 +1,4 @@
-package com.login.utils;
+package com.login.config;
 import java.util.Date;
 
 import org.springframework.stereotype.Component;

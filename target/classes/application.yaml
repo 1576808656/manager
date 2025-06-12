@@ -6,10 +6,21 @@ spring:
   lifecycle:
     timeout-per-shutdown-phase: 30s
   datasource:
-    url: jdbc:mysql://localhost:3306/personal_management_system?useSSL=false&serverTimezone=UTC&characterEncoding=utf8
-    username: root
-    password: zyhdmm
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    master:
+      jdbc-url: jdbc:mysql://localhost:3306/personal_management_system?useSSL=false&serverTimezone=UTC&characterEncoding=utf8
+      username: root
+      password: zyhdmm
+      driver-class-name: com.mysql.cj.jdbc.Driver
+    slave:
+      jdbc-url: jdbc:mysql://192.168.100.136:3306/personal_management_system?useSSL=false&serverTimezone=UTC&characterEncoding=utf8
+      username: root
+      password: Zyhd1gmm.
+      driver-class-name: com.mysql.cj.jdbc.Driver
+#  datasource:
+#    url: jdbc:mysql://localhost:3306/personal_management_system?useSSL=false&serverTimezone=UTC&characterEncoding=utf8
+#    username: root
+#    password: zyhdmm
+#    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
       ddl-auto: update # 开发环境常用update，生产环境建议使用none或validate
@@ -26,6 +37,15 @@ spring:
         heart-beat-timeout: 10000
         namespace: 5087aef0-3293-4f04-aa2d-56c1644dfc3f
         group: DEV-GROUP
+    sentinel:
+      transport:
+        dashboard: localhost:9000
+        port: 8719
+      eager: true
+      scg:
+        fallback:
+          mode: response
+          response-body: '{"code": 503, "msg": "manager服务熔断，请稍后重试"}'
   rabbitmq:
     host: 192.168.100.136
     port: 5672

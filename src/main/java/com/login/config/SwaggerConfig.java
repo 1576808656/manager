@@ -1,4 +1,4 @@
-package com.login.utils;
+package com.login.config;
 
 import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;

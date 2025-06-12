@@ -1,192 +1,95 @@
-body {
-	font-family: Arial, sans-serif;
-	margin: 0;
-	padding: 0;
-	background-color: #f4f4f4;
+.header {
+    text-align: center;
+    margin: 20px 0;
 }
-
-header {
-	background-color: #333;
-	color: #fff;
-	padding: 15px 0;
-	text-align: center;
-}
-
-nav {
-	background-color: #555;
-	overflow: hidden;
-}
-
-nav ul {
-	list-style-type: none;
-	margin: 0;
-	padding: 0;
-	display: flex;
-	justify-content: center;
-}
-
-nav ul li {
-	float: left;
-}
-
-nav ul li a {
-	display: block;
-	color: white;
-	text-align: center;
-	padding: 14px 16px;
-	text-decoration: none;
-	transition: background-color 0.3s;
-}
-
-nav ul li a:hover {
-            background-color: #777;
-}
-
-main {
-	padding: 20px;
-	min-height: calc(100vh - 100px);
-}
-
-footer {
-	background-color: #333;
-	color: #fff;
-	text-align: center;
-	padding: 10px 0;
-	position: fixed;
-	bottom: 0;
-	width: 100%;
-}
-
-/* 人事管理区域样式 */
-#content-area {
-    min-height: 400px;
-    position: relative;
-}
-
-.management-area {
-    margin: 20px;
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-}
-
-.search-area {
+.username {
+    text-align: center;
+    color: #666;
     margin-bottom: 20px;
 }
-
-.search-area input {
-    padding: 8px;
-    width: 300px;
-}
-
-.employee-display {
+.nav-container {
     display: flex;
+    justify-content: center;
     gap: 20px;
+    background-color: #f8f9fa;
+    padding: 15px;
 }
-
-.employee-list {
-    flex: 1;
-    max-height: calc(100vh - 200px); /* 根据页面高度自动调整 */
-    overflow-y: auto;
-    width: 100%; /* 使表格宽度占满父容器 */
-}
-
-#employee-table {
-    width: 100%; /* 表格宽度占满容器 */
-    table-layout: fixed; /* 固定列宽 */
-    border-collapse: collapse; /* 合并边框 */
-}
-
-#employee-table th,
-#employee-table td {
-    padding: 8px;
-    border: 1px solid #ddd;
-    text-align: center;
-    word-wrap: break-word; /* 自动换行 */
-}
-
-#employee-table th {
-    background-color: #f5f5f5;
-    font-weight: bold;
-}
-
-.employee-detail {
-    flex: 2;
-}
-
-.detail-form {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
-}
-
-.form-row {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-.form-row label {
-    width: 100px;
-    font-weight: bold;
-}
-
-.form-row span {
-    flex: 1;
-    padding: 5px;
-    border-bottom: 1px solid #eee;
-}
-
-.form-buttons {
-    grid-column: span 2;
-    margin-top: 20px;
-    text-align: center;
-}
-
-.form-buttons button {
-    margin: 0 10px;
-    padding: 8px 15px;
-}
-
-/* 可编辑状态 */
-.editable {
-    border: 1px solid #4CAF50;
-    background-color: #f8f8f8;
-}
-
-.editable input {
-    width: 100%;
-    padding: 5px;
-}
-
-.table-buttons {
-    margin-top: 10px;
-    padding: 10px;
-    text-align: right;
-}
-
-.table-buttons button {
-    margin-left: 10px;
-    padding: 5px 10px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
+.nav-item {
+    padding: 8px 16px;
     border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.nav-item:hover {
+    background-color: #e9ecef;
+}
+.nav-item.active {
+    background-color: #007BFF;
+    color: white;
+}
+
+.top-container {
+    position: fixed;
+    top: 0;
+    left: 50%; /* 配合 transform 实现水平居中 */
+    transform: translateX(-50%); /* 自身宽度的一半向左偏移 */
+    width: 90%; /* 控制容器宽度（可根据需求调整） */
+    max-width: 1200px; /* 最大宽度限制，避免过大屏幕内容分散 */
+    background: #fff;
+    z-index: 1000;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.content {
+    margin-top: 100px;
+    padding: 20px;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.data-table th, .data-table td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.data-table th {
+    background-color: #f8f9fa;
+}
+.data-table th:first-child, 
+.data-table td:first-child {
+    width: 30px;
+    text-align: center;
+}
+
+.data-table input[type="checkbox"] {
+    margin: 0;
     cursor: pointer;
 }
 
-.table-buttons button:hover {
-    background-color: #45a049;
+/* 新增：按钮容器样式 */
+.button-container {
+    margin: 10px 0;
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end; /* 右对齐 */
 }
 
-#employee-table th:nth-child(1),
-#employee-table td:nth-child(1) {
-    width: 8%; /* 工号列宽度 */
+/* 新增：操作按钮样式 */
+.action-btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007BFF;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
-#employee-table th:nth-child(2),
-#employee-table td:nth-child(2) {
-    width: 18%; /* 姓名列宽度 */
+.action-btn:hover {
+    background-color: #0056b3;
 }
-
-/* 其他列宽可根据需要类似设置 */

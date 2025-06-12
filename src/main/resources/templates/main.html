@@ -3,91 +3,121 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>登录成功 - 管理系统</title>
-    <link rel="stylesheet" href="/css/main.css">
-    <script src="https://cdn.jsdelivr.net/npm/axios@1.5.0/dist/axios.min.js"></script>
+    <title>人事管理系统主界面</title>
+    <link rel="stylesheet" href="/css/login.css"> <!-- 复用现有登录样式 -->
+    <link rel="stylesheet" href="/css/main.css"> <!-- 主界面样式 -->
+    <!-- 引入 Vue3 和 axios（与登录页保持一致） -->
+    <script src="/js/vue.global.js"></script>
 </head>
-
 <body>
-    <script src="/js/main.js"></script>
-    <header>
-        <h1>欢迎使用管理系统</h1>
-    </header>
-    <nav>
-        <ul>
-            <li><a href="#" onclick="showPersonnelManagement()">人事管理</a></li>
-            <li><a href="#">工资管理</a></li>
-            <li><a href="#" onclick="showSignInManagement()">考勤管理</a></li>
-            <li><a href="#">数据库管理</a></li>
-            <li><a href="#">系统管理</a></li>
-        </ul>
-    </nav>
-    
-    <div id="content-area">
-        <main>
-            <center><h2>主界面</h2></center>
-            <p><center>请选择您需要的管理功能</center></p>
-        </main>
-        
-        <!-- 人事管理区域 -->
-        <div id="personnel-management" class="management-area" style="display:none;">
-            <div class="search-area" id="personal-input">
-                <input type="text" id="search-input" placeholder="输入员工姓名">
-                <button onclick="searchEmployee()">搜索</button>
+    <div id="app">
+        <!-- 固定顶部容器 -->
+        <div class="top-container">
+            <!-- 顶部标题 -->
+            <div class="header">
+                <h1>人事管理系统</h1>
             </div>
             
-            <div class="employee-display">
-                <div class="employee-list">
-                    <table id="employee-table">
-                        <thead id="dynamic-thead">
-                            <!-- 动态生成的列头将插入此处 -->
-                        </thead>
-                        <tbody>
-                            <!-- 动态生成 -->
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <td colspan="13" style="text-align: right;">
-                                    <div class="table-buttons">
-                                        <button onclick="saveEmployee()">保存</button>
-                                        <button onclick="addEmployee()">添加</button>
-                                        <button onclick="deleteEmployee()">删除</button>
-                                        <button onclick="resetForm()">重置</button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tfoot>
-                    </table>
+            <!-- 登录用户名显示 -->
+            <div class="username">
+                当前登录用户：{{ username }}
+            </div>
+            
+            <!-- 导航栏 -->
+            <div class="nav-container">
+                <div 
+                    class="nav-item"
+                    :class="{ active: activeMenu === 'personnal' }"
+                    @click="activeMenu = 'personnal'; personnal()"
+                >
+                    人事管理
                 </div>
-                
-<!--                 <div class="employee-detail">
-                    <div class="detail-form">
-                        <div class="employee-info">
-                            <p>姓名: <span id="name"></span></p>
-                            <p>性别: <span id="gender"></span></p>
-                            <p>年龄: <span id="age"></span></p>
-                            添加其他需要展示的字段
-                        </div>
-                    </div>
-                </div> -->
+                <div 
+                    class="nav-item"
+                    :class="{ active: activeMenu === 'salary' }"
+                    @click="activeMenu = 'salary'"
+                >
+                    工资管理
+                </div>
+                <div 
+                    class="nav-item"
+                    :class="{ active: activeMenu === 'attendance' }"
+                    @click="activeMenu = 'attendance'"
+                >
+                    考勤管理
+                </div>
+                <div 
+                    class="nav-item"
+                    :class="{ active: activeMenu === 'memo' }"
+                    @click="activeMenu = 'memo'"
+                >
+                    备忘录
+                </div>
+                <div 
+                    class="nav-item"
+                    :class="{ active: activeMenu === 'database' }"
+                    @click="activeMenu = 'database'"
+                >
+                    数据库管理
+                </div>
+                <div 
+                    class="nav-item"
+                    :class="{ active: activeMenu === 'system' }"
+                    @click="activeMenu = 'system'"
+                >
+                    系统管理
+                </div>
             </div>
         </div>
-        
-        <!-- 考勤管理区域 -->
-        <div id="sign-in-management" class="management-area" style="display:none;">
-            <div class="search-area">
-                <input type="text" id="sign-in-search-input" placeholder="输入员工姓名">
-                <button onclick="searchSignInData()">搜索</button>
+
+        <!-- 内容显示区域（在顶部容器下方） -->
+        <div class="content">
+            <!-- 人事管理按钮组（新增） -->
+            <div v-if="activeMenu === 'personnal'" class="button-container">
+                <button class="action-btn" @click="handleAdd">添加</button>
+                <button class="action-btn" @click="handleEdit">修改</button>
+                <button class="action-btn" @click="handleDelete">删除</button>
+                <button class="action-btn" @click="handleReset">重置</button>
             </div>
+
+            <!-- 人事管理表格（根据activeMenu动态显示） -->
+            <table v-if="activeMenu === 'personnal'" class="data-table">
+                <thead>
+                    <tr>
+                        <th><input type="checkbox" v-model="selectAll"></th>
+                        <th v-for="col in personnalColumns" :key="col.key">{{ col.title }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tbody>
+                        <tr v-for="emp in employees" :key="emp.pid">
+                            <td><input type="checkbox" v-model="selectedPids" :value="emp.pid" @change="handleCheckboxChange(emp.pid)"></td>
+                            <td v-for="col in personnalColumns" :key="col.key">
+                                <!-- 照片列显示图片 -->
+                                <img v-if="col.key === 'photo'" 
+                                     :src="'/photo/' + emp[col.key] + '.jpg'" 
+                                     alt="员工照片" 
+                                     style="max-width: 100px; max-height: 100px;">
+                                
+                                <!-- 非照片列：编辑状态时显示文本框，否则显示可双击的文本 -->
+                                <input v-else-if="isEditable(emp.pid, col.key)" 
+                                       type="text" 
+                                       v-model="emp[col.key]" 
+                                       @blur="finishEdit(emp.pid, col.key)">
+                                
+                                <span v-else 
+                                      @dblclick="makeEditable($event, emp.pid, col.key)" 
+                                      style="cursor: pointer;">
+                                    {{ emp[col.key] }}
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </tbody>
+            </table>
             
-            <div class="sign-in-display">
-                <!-- 考勤表格或其他内容 -->
-            </div>
         </div>
     </div>
-    
-    <footer>
-        <p>&copy; 2025 管理系统版权所有</p>
-    </footer>
+    <script src="/js/main.js"></script>
 </body>
 </html>

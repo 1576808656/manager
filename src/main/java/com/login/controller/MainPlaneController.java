@@ -15,11 +15,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
+import com.login.config.JwtConfig;
 import com.login.feignClient.WorkTimeFeignClient;
 import com.login.model.Worker;
 import com.login.service.main.MainPlaneServiceInterface;
 import com.login.service.rabbitmq.MessageSender;
-import com.login.utils.JwtConfig;
 import com.shared_dto.mode.WorkTime;
 
 import jakarta.servlet.http.Cookie;
@@ -87,14 +88,19 @@ public class MainPlaneController {
 	 */
 	@GetMapping("/api/employees")
 	@ResponseBody
+	@SentinelResource(value = "getAllWorkerInfo",blockHandler = "flowService")
 	public ResponseEntity<List<Worker>> getEmployees(@RequestParam(required=false) String name){
 		List<Worker> employees = null;
-		if(name.equals(""))
+		if(name==null || name.equals(""))
 			employees = service.selectAllEmployees();
 		else
 			employees = service.getEmployees(name);
-		sender.sendOrder("获取员工信息");
+		
 		return ResponseEntity.ok(employees);
+	}
+	
+	public void flowService() {
+		System.out.println("应用已限流");
 	}
 	
 	/**

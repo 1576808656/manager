@@ -98,7 +98,10 @@ public class Worker implements Serializable {
 		return photo;
 	}
 	public void setPhoto(String photo) {
-		this.photo = this.pid+"_"+this.name;
+		// 原逻辑：使用姓名生成文件名（导致乱码）
+		// this.photo = this.pid + "_" + this.name;
+		// 修正后：使用身份证号生成文件名（匹配真实信息）
+		this.photo = this.pid + "_" + this.idcard;
 	}
 	public String getPassword() {
 		return password;
